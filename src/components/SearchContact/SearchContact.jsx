@@ -1,5 +1,5 @@
 import { Label, Input } from './SearchContact.styled';
-import { setFilter } from 'redux/filterSlice';
+import { setFilter } from 'redux/contacts/filterSlice';
 import { useDispatch } from 'react-redux';
 
 export const SearchContact = () => {

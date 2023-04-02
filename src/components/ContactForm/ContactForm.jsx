@@ -6,8 +6,8 @@ import 'yup-phone';
 import toast from 'react-hot-toast';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts, errorContacts } from 'redux/seletors';
-import { addContact } from 'redux/operations';
+import { getContacts, errorContacts } from 'redux/contacts/seletors';
+import { addContact } from 'redux/contacts/operations';
 
 const namePattern =
   /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
@@ -21,7 +21,7 @@ const validationSchema = Yup.object({
       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
     )
     .required('Required'),
-  phone: Yup.string()
+  number: Yup.string()
     .phone(
       numberPattern,
       true,
@@ -74,8 +74,8 @@ const ContactForm = () => {
       </Label>
       <Label>
         Number
-        <Input defaultValue="" {...register('phone')} />
-        <Messege>{errors.phone?.message}</Messege>
+        <Input defaultValue="" {...register('number')} />
+        <Messege>{errors.number?.message}</Messege>
       </Label>
       <Button type="submit">Add contact</Button>
     </Form>

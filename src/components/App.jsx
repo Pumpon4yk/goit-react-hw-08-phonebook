@@ -1,33 +1,34 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Toaster } from 'react-hot-toast';
+import { Route, Routes } from 'react-router-dom';
+import { Layout } from './Layout';
+import { useEffect, lazy } from 'react';
+import { useDispatch } from 'react-redux';
+import {Home} from "../page/Home"
+import {refreshUser} from 'redux/auth/operations'
+import { RestrictedRoute } from './RestrictedRoute';
+import { PrivateRoute } from './PrivateRoute';
 
-import { Container, TitleContact, TitleForm } from './App.styled';
-import ContactForm from './ContactForm';
-import Contacts from './Contacts';
 
-import {fetchContacts} from '../redux/operations'
-import {getContacts, isLoadingContacts} from 'redux/seletors'
+const ContactsPage = lazy(() => import('../page/ContactsPage'))
+const RegisterPage = lazy(() => import('page/RegisterPage'))
+const LoginPage = lazy(() => import('page/LoginPage'))
 
 export default function App() {
-  const dispatch = useDispatch()
-  const contacts = useSelector(getContacts)
-  const isLoading = useSelector(isLoadingContacts)
+  const dispatch =useDispatch()
 
-  useEffect (() => {
-    dispatch(fetchContacts())
+  useEffect(()=>{
+dispatch(refreshUser())
   }, [dispatch])
 
+
   return (
-    <Container>
-      <TitleForm>Phonebook</TitleForm>
-      <ContactForm />
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />}/>
+        <Route path="contacts" element={<PrivateRoute redirectTo='/login' component={<ContactsPage />} />} />
 
-      <TitleContact>Contacts</TitleContact>
-      {contacts.length === 0 && isLoading && <p>loading...</p> }
-      {contacts.length === 0 && !isLoading ? <p>You don't have contacts ☹️</p> : <Contacts/>}
-
-      <Toaster position="top-left" reverseOrder={false} />
-    </Container>
+        <Route path="/register" element={<RestrictedRoute redirectTo='/contacts' component={<RegisterPage />} />} />
+        <Route path="/login" element={<RestrictedRoute redirectTo='/contacts' component={<LoginPage />} />} />
+      </Route>
+    </Routes>
   );
 }

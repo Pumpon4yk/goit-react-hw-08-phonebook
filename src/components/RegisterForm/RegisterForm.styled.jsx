@@ -7,7 +7,13 @@ export const Form = styled.form`
   align-items: center;
   margin: 0 auto;
   gap: 40px;
-  padding: 20px;
+  padding: 50px;
+
+text-align: center;
+border: 0;
+border-radius: 20px;
+background: rgb(54,131,244);
+background: linear-gradient(0deg, rgba(54,131,244,0.4290091036414566) 0%, rgba(82,153,227,0.41780462184873945) 100%);
 `;
 
 export const Label = styled.label`
