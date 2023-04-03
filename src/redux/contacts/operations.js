@@ -35,3 +35,17 @@ export const deleteContact = createAsyncThunk('contacts/deleteContant', async (i
     return thunkAPI.rejectWithValue(error.message)
   }
 });
+
+export const editContact = createAsyncThunk('contacts/editContant', async (contact, thunkAPI) => {
+  const state = thunkAPI.getState()
+  const id = state.edit
+  
+  try {
+    const response = await axios.patch(`/contacts/${id}`, contact);
+    toast.success("Contact edit.")
+  return response.data;
+  } catch (error) {
+    toast.error(`${error.message}`)
+    return thunkAPI.rejectWithValue(error.message)
+  }
+});

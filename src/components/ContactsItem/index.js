@@ -1,1 +1,1 @@
-export {ContactsItem} from './ContactsItem'
+export {default} from './ContactsItem'

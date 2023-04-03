@@ -1,1 +1,1 @@
-export {SearchContact} from "./SearchContact"
+export {default} from "./SearchContact"

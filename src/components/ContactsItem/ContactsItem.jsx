@@ -1,12 +1,25 @@
-import {Container, Contact, PhoneNumber, ButtonDelete } from './ContactsItem.styled';
+import {Container, Contact, PhoneNumber, ButtonDelete, ButtonEdit } from './ContactsItem.styled';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from 'redux/contacts/operations';
-import { isLoadingContacts } from 'redux/contacts/seletors';
+import { createPortal } from 'react-dom';
 
-export const ContactsItem = ({ contact: { id, name, number }}) => {
+import { deleteContact } from 'redux/contacts/operations';
+import { isLoadingContacts, getEditId } from 'redux/contacts/seletors';
+import { WrapBtn } from 'components/BasicsStyled/BasicsStyled.styled';
+import {setEdit} from 'redux/contacts/editSlice'
+import ModalEdit from 'components/ModalEdit';
+
+const portal = document.querySelector("#modal-root")
+
+
+const ContactsItem = ({ contact: { id, name, number }}) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(isLoadingContacts)
+  const idContact = useSelector(getEditId)
+
+  const handalEdit = (e) => {
+    dispatch(setEdit(e.target.id))
+  }
  
   return (
     <Container>
@@ -14,9 +27,14 @@ export const ContactsItem = ({ contact: { id, name, number }}) => {
         {name}
       </Contact>
       <PhoneNumber>{number}</PhoneNumber>
+      <WrapBtn>
+      <ButtonEdit id={id} onClick={handalEdit} disabled={isLoading}>Edit</ButtonEdit>
+
       <ButtonDelete id={id} onClick={() => dispatch(deleteContact(id))} disabled={isLoading}>
       Delete
       </ButtonDelete>
+      </WrapBtn>
+      {idContact && createPortal(<ModalEdit/>, portal)}
     </Container>
   );
 };
@@ -30,3 +48,5 @@ ContactsItem.propTypes = {
   }).isRequired,
   
 };
+
+export default ContactsItem

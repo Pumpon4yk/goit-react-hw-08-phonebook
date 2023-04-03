@@ -1,24 +1,27 @@
 import { useAuth } from 'components/hooks/useAuth';
 import UserMenu from 'components/UserMenu/UserMenu';
 import { Header, Link, Nav } from './Navigation.styled';
+import { Button, WrapBtn} from 'components/BasicsStyled/BasicsStyled.styled'
+
 
 export const Navigation = () => {
-  // const state = useSelector()
   const {isLoggedIn} = useAuth()
 
   
   return (
     <Header>
       <Nav>
-        <div>
+        <WrapBtn>
         <Link to="/">Home</Link>
         {isLoggedIn && <Link to="/contacts">Contacts</Link>}
-        </div>
-        {isLoggedIn ? <UserMenu/> : <div>
-        <Link to="/register">Register</Link>
-        <Link to="/login">LogIn</Link>
-        </div>}
+        </WrapBtn>
+        {isLoggedIn  ? <UserMenu/> : <WrapBtn>
+        <Button type='button'><Link to="/register">Register</Link></Button>
+        <Button type='button'><Link to="/login">LogIn</Link></Button>
+        </WrapBtn>}
       </Nav>
     </Header>
   );
 };
+
+export default Navigation

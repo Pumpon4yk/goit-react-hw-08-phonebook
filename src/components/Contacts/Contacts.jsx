@@ -1,20 +1,23 @@
-import { Toaster } from 'react-hot-toast';
-// import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getContacts, isLoadingContacts } from 'redux/contacts/seletors';
-import { Container, TitleContact, TitleForm } from './Contacts.styled';
+import { getContacts, isLoadingContacts, getEditId } from 'redux/contacts/seletors';
+import { ContainerForm, TitleContact, TitleForm, Fake } from './Contacts.styled';
 import ContactForm from '../ContactForm';
-import { SearchContact } from '../SearchContact';
-import { ContactsList } from '../ContactsList';
+import SearchContact from '../SearchContact';
+import ContactsList from '../ContactsList';
+
+
 
 const Contacts = () => {
   const contacts = useSelector(getContacts);
   const isLoading = useSelector(isLoadingContacts);
+  const idContact = useSelector(getEditId)
 
+  
   return (
-    <Container>
+    <ContainerForm>
       <TitleForm>Phonebook</TitleForm>
-      <ContactForm />
+      {idContact ? <Fake/> : <ContactForm/>}
+      
 
       <TitleContact>Contacts</TitleContact>
       {contacts.length === 0 && isLoading && <p>loading...</p>}
@@ -27,8 +30,7 @@ const Contacts = () => {
         </>
       )}
 
-      <Toaster position="top-left" reverseOrder={false} />
-    </Container>
+    </ContainerForm>
   );
 };
 
