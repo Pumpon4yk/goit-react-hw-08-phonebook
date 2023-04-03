@@ -46,7 +46,7 @@ export const logIn = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      
+
       toast.error(`${error.message}`);
 
       if(error.code === "ERR_BAD_REQUEST"){
@@ -75,7 +75,6 @@ export const refreshUser = createAsyncThunk(
     const persistedToken = state.auth.token;
 
     if (persistedToken === null) {
-      toast.error('Unable to fetch user');
       return thunkAPI.rejectWithValue('Unable to fetch user');
     }
 
