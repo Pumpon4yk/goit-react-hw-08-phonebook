@@ -26,6 +26,11 @@ export const signUp = createAsyncThunk(
       return response.data;
     } catch (error) {
       toast.error(`${error.message}`);
+
+      if(error.response.data.driver){
+        toast(`Such user already exists 🦝 ${error.response.data.name}`);
+      }
+
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -41,7 +46,12 @@ export const logIn = createAsyncThunk(
 
       return response.data;
     } catch (error) {
+      
       toast.error(`${error.message}`);
+
+      if(error.code === "ERR_BAD_REQUEST"){
+        toast.error("The user does not exist or the login information is incorrect, please try again or register")
+      }
       return thunkAPI.rejectWithValue(error.message);
     }
   }
